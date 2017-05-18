@@ -1,0 +1,57 @@
+---
+gitlab_tag: latest
+
+gitlab_name: gitlab-test
+server_name: source.coderefinery.org
+public_ip: 86.50.168.91
+private_network: 192.168.44.*
+private_network_cidr: 192.168.44.0/24
+server_fqdn: "{{ server_name }}"
+network_id: 6089354a-b088-460b-a08f-c747099d9eba
+
+keypair_name: id_rsa_gitlab_test
+ansible_user: cloud-user
+
+
+image_name: "CentOS-7.0"
+
+server_flavor: io.70GB
+runner_flavor: io.70GB
+backup_flavor: standard.tiny
+
+# it just "is" vdc in CentOS, this is more descriptive than declarative
+backup_device: /dev/vdc
+
+
+
+# these are at times accessed by index so don't change order!
+extra_volumes:
+  - { name: "{{ gitlab_name }}-data", device: "/dev/vdc", size: 400, mountpoint: "/srv/gitlab/data"}
+  - { name: "{{ gitlab_name }}-configs", device: "/dev/vde", size: 1, mountpoint: "/srv/gitlab/logs" }
+  - { name: "{{ gitlab_name }}-logs", device: "/dev/vdd", size: 5, mountpoint: "/srv/gitlab/config" }
+  - { name: "{{ gitlab_name }}-secret", device: "/dev/vdf", size: 5, mountpoint: "/srv/gitlab/config/backups" }
+
+gitlab_root_password: "{{ vaulted_gitlab_root_password }}"
+ssl_certificate_key: "{{ vaulted_ssl_certificate_key }}"
+id_rsa_gitlab_backup: "{{ vaulted_id_rsa_gitlab_backup }}"
+contact_email: "{{ vaulted_contact_email }}"
+runner_registration_token: "{{ vaulted_runner_registration_token }}"
+
+gitlab_ssh_port: 10022
+
+#admin from CSC, open from the rest of the world
+firewall_rules:
+  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.85.0/24 }
+  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.2.0/24 }
+  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.1.0/24 }
+  - { port_range_min: "{{ gitlab_ssh_port }}", port_range_max: "{{ gitlab_ssh_port }}", remote_ip_prefix: 0.0.0.0/0 }
+  - { port_range_min: 443, port_range_max: 443, remote_ip_prefix: 0.0.0.0/0 }
+  - { port_range_min: 80, port_range_max: 80, remote_ip_prefix: 0.0.0.0/0 }
+
+deployment_ssh_pubkey: >
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCjszVmbo+mNjqrutwwtszZ7eyE1OQ3ZvJ4rgN3QENFdG31SJMRONpXNA07DWfxhJihOlDSgRY98dvPYPv3QROKsmmOTKzmW2PlpWBLR3CXf5e/hs+JXrnPql/MHxQwVP7R6EiRZlup+6SutTXgg+yLQo23XoAz59IfU8TXO3Z7oBei1SxmvTX8Db7xfa3Viu8JPOHNwdhBnXVMtqwQ2/m1NkS0qQME/ZAozf1Qyq7EdAJxWg3X1BH9HslYQTGampZGb753qtubtzr/ygzaaCBP25ofX37PeWJMbUTm1OkxOss23dPco3SAZgDWgPsfe7mesvVho6dRcw44mbqNIc7R suvileht@suvileht-air13
+
+backup_public_key: >
+  ssh-rsa
+  AAAAB3NzaC1yc2EAAAADAQABAAABAQDQyizIQlIyhop6bKEsqwG8/OkgB2gWGHbwGr3ELYIAAItbt5rJv0qI4PUabw8V9ziNhqa/CvcCiDxQ4/1UlP4ncii+HMX8iG+yBChr/QB6jQ3cqSbEbK5k6n7Lz8UhSEt89CLNLfW28qQnAhXtehHbJVdH1e6arNFc5i5CLcNPwIssFYPNbPKyaTkWU53u3Wy7ELgxhxta3SLu6ohdzgAuZDOiW/Lj5Y6RUOL71tGxWCwpekyhsFzrViHeLEguGIdL5k7RNvdzIOcrXZLDn/if174ANOMGVYPoz11Gi5m/8QyxLhTChkGXFBf0T8Ch4z3SMD1Ep9YNNleMZAr9N/Jf
+  cloud-user@coderefinery-gitlab-backup
