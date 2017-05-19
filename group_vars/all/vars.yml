@@ -34,8 +34,11 @@ extra_volumes:
 gitlab_root_password: "{{ vaulted_gitlab_root_password }}"
 ssl_certificate_key: "{{ vaulted_ssl_certificate_key }}"
 id_rsa_gitlab_backup: "{{ vaulted_id_rsa_gitlab_backup }}"
-contact_email: "{{ vaulted_contact_email }}"
 runner_registration_token: "{{ vaulted_runner_registration_token }}"
+
+
+contact_email: "{{ vaulted_contact_email }}"
+gitlab_email_display_name: "CodeRefinery GitLab"
 
 gitlab_ssh_port: 10022
 
