@@ -40,14 +40,14 @@ runner_registration_token: "{{ vaulted_runner_registration_token }}"
 contact_email: "{{ vaulted_contact_email }}"
 gitlab_email_display_name: "CodeRefinery GitLab"
 
-gitlab_ssh_port: 10022
+gitlab_admin_port: 10022
 
 #admin from CSC, open from the rest of the world
 firewall_rules:
-  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.85.0/24 }
-  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.2.0/24 }
-  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 193.166.1.0/24 }
-  - { port_range_min: "{{ gitlab_ssh_port }}", port_range_max: "{{ gitlab_ssh_port }}", remote_ip_prefix: 0.0.0.0/0 }
+  - { port_range_min: "{{gitlab_admin_port}}", port_range_max: "{{gitlab_admin_port}}", remote_ip_prefix: 193.166.85.0/24 }
+  - { port_range_min: "{{gitlab_admin_port}}", port_range_max: "{{gitlab_admin_port}}", remote_ip_prefix: 193.166.2.0/24 }
+  - { port_range_min: "{{gitlab_admin_port}}", port_range_max: "{{gitlab_admin_port}}", remote_ip_prefix: 193.166.1.0/24 }
+  - { port_range_min: 22, port_range_max: 22, remote_ip_prefix: 0.0.0.0/0 }
   - { port_range_min: 443, port_range_max: 443, remote_ip_prefix: 0.0.0.0/0 }
   - { port_range_min: 80, port_range_max: 80, remote_ip_prefix: 0.0.0.0/0 }
 
