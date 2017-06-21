@@ -1,0 +1,14 @@
+---
+runner_vms:
+  shared:
+    image: "CentOS-7.0"
+    flavor: "io.70GB"
+    runner_configs:
+      - RUNNER_NAME: "ubuntu-shared"
+        DOCKER_IMAGE: "ubuntu"
+        REGISTRATION_TOKEN: "{{ initial_shared_runners_registration_token }}"
+        state: "started"
+      - RUNNER_NAME: "centos-shared"
+        DOCKER_IMAGE: "centos"
+        REGISTRATION_TOKEN: "{{ initial_shared_runners_registration_token }}"
+        state: "started"
