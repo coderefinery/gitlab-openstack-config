@@ -1,5 +1,5 @@
 ---
-gitlab_tag: latest
+gitlab_tag: 9.5.10-ce.0
 environment_type: production
 gitlab_name: gitlab-coderefinery
 server_name: source.coderefinery.org
