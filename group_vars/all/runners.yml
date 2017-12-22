@@ -1,7 +1,7 @@
 ---
 runner_vms:
   shared:
-    image: "CentOS-7.0"
+    image: "CentOS-7"
     flavor: "io.70GB"
     runner_configs:
       - RUNNER_NAME: "ubuntu-shared"
